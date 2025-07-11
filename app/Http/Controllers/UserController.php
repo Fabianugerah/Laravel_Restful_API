@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use App\Http\Requests\UserLoginRequest;
 use App\Http\Requests\UserRegisterRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Http\Resources\UserResource;
+use App\Models\User;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -33,7 +33,9 @@ class UserController extends Controller
 
         $user = new User($data);
         $user->password = Hash::make($data['password']);
-        $user->save();
+        if ($user instanceof \App\Models\User) {
+            $user->save();
+        }
 
         return (new UserResource($user))->response()->setStatusCode(201);
     }
@@ -54,8 +56,9 @@ class UserController extends Controller
         }
 
         $user->token = Str::uuid()->toString();
-        $user->save();
-
+        if ($user instanceof \App\Models\User) {
+            $user->save();
+        }
         return new UserResource($user);
     }
 
@@ -78,16 +81,18 @@ class UserController extends Controller
             $user->password = Hash::make($data['password']);
         }
 
-        dd($user);
-        $user->save();
+        if ($user instanceof \App\Models\User) {
+            $user->save();
+        }
         return new UserResource($user);
     }
 
     public function logout(Request $request): JsonResponse {
         $user = Auth::user();
-        $user->token = null;
-        dd($user);
-        $user->save();
+        if ($user instanceof \App\Models\User) {
+            $user->token = null;
+            $user->save();
+        }
 
         return response()->json([
             "data" => true

@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\API\KategoriBeritaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,6 +20,8 @@ use Illuminate\Support\Facades\Route;
 //});
 
 Route::post('/users', [\App\Http\Controllers\UserController::class, 'register']);
+
+
 Route::post('/users/login', [\App\Http\Controllers\UserController::class, 'login']);
 
 Route::middleware(\App\Http\Middleware\ApiAuthMiddleware::class)->group(function () {
@@ -46,3 +49,7 @@ Route::middleware(\App\Http\Middleware\ApiAuthMiddleware::class)->group(function
         ->where('idContact', '[0-9]+')
         ->where('idAddress', '[0-9]+');
 });
+
+ Route::group(['prefix' => 'v1'], function () {
+        Route::get('kategori-berita', [KategoriBeritaController::class, 'listKategoriBerita']);
+    });

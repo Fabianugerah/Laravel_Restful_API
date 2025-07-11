@@ -13,7 +13,7 @@ class UserRegisterRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -26,7 +26,7 @@ class UserRegisterRequest extends FormRequest
         return [
             'username'=> ['required', 'max:100'],
             'password'=> ['required', 'max:100'],
-            'name'=> ['required', 'max:100'],
+            'name'=> ['max:100'],
         ];
     }
 
