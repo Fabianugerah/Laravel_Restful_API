@@ -16,6 +16,36 @@ use Illuminate\Database\Eloquent\Builder;
 
 class ContactController extends Controller
 {
+    /**
+     * @OA\Post(
+     *     path="/api/contacts",
+     *     tags={"Contacts"},
+     *     summary="Create new contact",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         description="Create new contact",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="first_name", type="string", example="Fabianugerah"),
+     *             @OA\Property(property="last_name", type="string", example="Bainasshiddiq"),
+     *             @OA\Property(property="email", type="string", example="fabianugerah@gmail.com"),
+     *             @OA\Property(property="phone", type="string", example="088217418481")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Success create contact",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="data", type="object",
+     *             @OA\Property(property="id", type="integer", example=1),
+     *             @OA\Property(property="first_name", type="string", example="Fabianugerah"),
+     *             @OA\Property(property="last_name", type="string", example="Bainasshiddiq"),
+     *             @OA\Property(property="email", type="string", example="fabianugerah@gmail.com"),
+     *             @OA\Property(property="phone", type="string", example="088217418481")
+     *             )
+     *         )
+     *     )
+     * )
+     */
     public function create(ContactCreateRequest $request): JsonResponse
     {
         $data = $request->validated();
@@ -28,6 +58,29 @@ class ContactController extends Controller
         return (new ContactResource($contact))->response()->setStatusCode(201);
     }
 
+    // GET CONTACTS
+    /**
+     * @OA\Get(
+     *     path="/api/contacts/{id}",
+     *     tags={"Contacts"},
+     *     summary="Get contact detail",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Success get contact",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="data", type="object",
+     *                 @OA\Property(property="id", type="integer", example=1),
+     *                 @OA\Property(property="first_name", type="string"),
+     *                 @OA\Property(property="last_name", type="string"),
+     *                 @OA\Property(property="email", type="string"),
+     *                 @OA\Property(property="phone", type="string")
+     *             )
+     *         )
+     *     )
+     * )
+     */
     public function get(int $id): ContactResource
     {
         $user = Auth::user();
@@ -45,6 +98,40 @@ class ContactController extends Controller
         return new ContactResource($contact);
     }
 
+
+
+    /**
+     * @OA\Put(
+     *     path="/api/contacts/{id}",
+     *     tags={"Contacts"},
+     *     summary="Update contact",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         description="Update contact",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="first_name", type="string"),
+     *             @OA\Property(property="last_name", type="string"),
+     *             @OA\Property(property="email", type="string"),
+     *             @OA\Property(property="phone", type="string")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Success update contact",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="data", type="object",
+     *                 @OA\Property(property="id", type="integer"),
+     *                 @OA\Property(property="first_name", type="string"),
+     *                 @OA\Property(property="last_name", type="string"),
+     *                 @OA\Property(property="email", type="string"),
+     *                 @OA\Property(property="phone", type="string")
+     *             )
+     *         )
+     *     )
+     * )
+     */
     public function update(int $id, ContactUpdateRequest $request): ContactResource
     {
         $user = Auth::user();
@@ -67,6 +154,22 @@ class ContactController extends Controller
         return new ContactResource($contact);
     }
 
+    /**
+     * @OA\Delete(
+     *     path="/api/contacts/{id}",
+     *     tags={"Contacts"},
+     *     summary="Delete contact",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Success delete contact",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="data", type="boolean", example=true)
+     *         )
+     *     )
+     * )
+     */
     public function delete(int $id): JsonResponse
     {
         $user = Auth::user();
@@ -88,6 +191,34 @@ class ContactController extends Controller
         ])->setStatusCode(200);
     }
 
+    // SEARCH CONTACTS
+    /**
+     * @OA\Get(
+     *     path="/api/contacts",
+     *     tags={"Contacts"},
+     *     summary="Search contacts",
+     *     @OA\Parameter(name="name", in="query", @OA\Schema(type="string")),
+     *     @OA\Parameter(name="phone", in="query", @OA\Schema(type="string")),
+     *     @OA\Parameter(name="email", in="query", @OA\Schema(type="string")),
+     *     @OA\Parameter(name="size", in="query", @OA\Schema(type="integer")),
+     *     @OA\Parameter(name="page", in="query", @OA\Schema(type="integer")),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Success search contacts",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="data", type="array", @OA\Items(
+     *                  @OA\Property(property="id", type="integer", example=1),
+     *                  @OA\Property(property="first_name", type="string", example="Fabianugerah"),
+     *                  @OA\Property(property="last_name", type="string", example="Bainasshiddiq"),
+     *                  @OA\Property(property="email", type="string", example="fabianugerah@gmail.com"),
+     *                  @OA\Property(property="phone", type="string", example="088217418481")
+     *             )),
+     *             @OA\Property(property="meta", type="object"),
+     *             @OA\Property(property="errors", type="object", nullable=true)
+     *         )
+     *     )
+     * )
+     */
     public function search(Request $request): ContactCollection
     {
         $user = Auth::user();

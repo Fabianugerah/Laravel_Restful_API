@@ -21,7 +21,6 @@ use App\Http\Controllers\API\KategoriBeritaController;
 
 Route::post('/users', [\App\Http\Controllers\UserController::class, 'register']);
 
-
 Route::post('/users/login', [\App\Http\Controllers\UserController::class, 'login']);
 
 Route::middleware(\App\Http\Middleware\ApiAuthMiddleware::class)->group(function () {
@@ -50,6 +49,6 @@ Route::middleware(\App\Http\Middleware\ApiAuthMiddleware::class)->group(function
         ->where('idAddress', '[0-9]+');
 });
 
- Route::group(['prefix' => 'v1'], function () {
-        Route::get('kategori-berita', [KategoriBeritaController::class, 'listKategoriBerita']);
-    });
+Route::group(['prefix' => 'v1'], function () {
+    Route::get('kategori-berita', [KategoriBeritaController::class, 'listKategoriBerita']);
+});

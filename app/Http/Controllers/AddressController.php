@@ -55,7 +55,7 @@ class AddressController extends Controller
         $address->contact_id = $contact->id;
         $address->save();
 
-        return (new AddressResource($address))->response->setStatusCode(201);
+        return (new AddressResource($address))->response()->setStatusCode(201);
     }
 
     public function get(int $idContact, int $idAddress): AddressResource
@@ -99,5 +99,4 @@ class AddressController extends Controller
         $addresses = Address::where('contact_id', $contact->id)->get();
         return (AddressResource::collection($addresses))->response()->setStatusCode(200);
     }
-
 }

@@ -10,13 +10,12 @@ class KategoriBeritaController extends Controller
         /**
     *    @OA\Get(
     *       path="/kategori-berita",
-    *       tags={"Berita"},
-    *       operationId="kategoriBerita",
+    *       tags={"Example"},
     *       summary="Kategori Berita",
     *       description="Mengambil Data Kategori Berita",
     *       @OA\Response(
     *           response="200",
-    *           description="Ok",
+    *           description="OK",
     *           @OA\JsonContent
     *           (example={
     *               "success": true,
@@ -24,7 +23,9 @@ class KategoriBeritaController extends Controller
     *               "data": {
     *                   {
     *                   "id": "1",
-    *                   "nama_kategori": "Pendidikan",
+    *                   "username": "Nugrah",
+    *                   "password": "rahasia",
+
     *                  }
     *              }
     *          }),

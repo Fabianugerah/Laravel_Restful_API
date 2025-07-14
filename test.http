@@ -28,7 +28,7 @@ Authorization: 13dae49c-9464-4e54-9761-112a92343c81
 PATCH http://localhost:8000/api/users/current
 Content-Type: application/json
 Accept: application/json
-Authorization: 13dae49c-9464-4e54-9761-112a92343c81
+Authorization: 13dae49c-9464-4e54-9761-112a92343c81x
 
 {
     "name" : "Eko Khannedy"
