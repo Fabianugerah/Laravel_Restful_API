@@ -48,7 +48,3 @@ Route::middleware(\App\Http\Middleware\ApiAuthMiddleware::class)->group(function
         ->where('idContact', '[0-9]+')
         ->where('idAddress', '[0-9]+');
 });
-
-Route::group(['prefix' => 'v1'], function () {
-    Route::get('kategori-berita', [KategoriBeritaController::class, 'listKategoriBerita']);
-});

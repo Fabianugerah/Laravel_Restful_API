@@ -18,6 +18,12 @@ class ApiAuthMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         $token = $request->header('Authorization');
+
+        // hapus prefix "Bearer "
+        if ($token && str_starts_with($token, 'Bearer ')) {
+            $token = substr($token, 7);
+        }
+
         $authenticate = true;
 
         if (!$token) {
@@ -40,7 +46,7 @@ class ApiAuthMiddleware
                         "unauthorized"
                     ]
                 ]
-            ])->setStatusCode(401);
+            ], 401);
         }
     }
 }

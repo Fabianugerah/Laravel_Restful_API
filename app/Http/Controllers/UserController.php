@@ -14,49 +14,27 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
-
+    
 class UserController extends Controller
 {
+    // REGISTER USER
     /**
      * @OA\Post(
      *     path="/api/users",
-     *     tags={"Users"},
      *     summary="Register new user",
-     *     description="Register a new user with username, password, and name",
-     *
+     *     tags={"Users"},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             required={"username", "password",},
-     *             @OA\Property(property="username", type="string", example="Nugrah"),
-     *             @OA\Property(property="password", type="string", format="password", example="rahasia"),
-     *             @OA\Property(property="name", type="string", example="Fabianugerah Bainashhiddiq")
+     *             required={"username", "password", "name"},
+     *             @OA\Property(property="username", type="string"),
+     *             @OA\Property(property="password", type="string"),
+     *             @OA\Property(property="name", type="string")
      *         )
      *     ),
      *     @OA\Response(
      *         response=201,
-     *         description="Success register user",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="data", type="object",
-     *                 @OA\Property(property="id", type="integer", example=1),
-     *                 @OA\Property(property="username", type="string", example="Nugrah"),
-     *                 @OA\Property(property="name", type="string", example="Fabianugerah Bainashhiddiq")
-     *             )
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=400,
-     *         description="Validation error",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="errors", type="object",
-     *                 @OA\Property(property="username", type="array",
-     *                     @OA\Items(type="string", example="username must not be blank")
-     *                 ),
-     *                 @OA\Property(property="name", type="array",
-     *                     @OA\Items(type="string", example="name must not be blank")
-     *                 )
-     *             )
-     *         )
+     *         description="Success register user"
      *     )
      * )
      */
@@ -83,33 +61,23 @@ class UserController extends Controller
         return (new UserResource($user))->response()->setStatusCode(201);
     }
 
+    // LOGIN USER
     /**
      * @OA\Post(
      *     path="/api/users/login",
-     *     tags={"Users"},
      *     summary="Login user",
-     *     description="Authenticate user and return token",
-     *
+     *     tags={"Users"},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
      *             required={"username", "password"},
-     *             @OA\Property(property="username", type="string", example="Nugrah"),
-     *             @OA\Property(property="password", type="string", format="password", example="rahasia")
+     *             @OA\Property(property="username", type="string"),
+     *             @OA\Property(property="password", type="string")
      *         )
      *     ),
-     *
      *     @OA\Response(
      *         response=200,
-     *         description="Success login",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="data", type="object",
-     *                 @OA\Property(property="id", type="integer", example=1),
-     *                 @OA\Property(property="username", type="string", example="Nugrah"),
-     *                 @OA\Property(property="name", type="string", example="Fabianugerah Bainashhiddiq"),
-     *                 @OA\Property(property="token", type="string", example="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...")
-     *             )
-     *         )
+     *         description="Success login"
      *     )
      * )
      */
@@ -135,23 +103,14 @@ class UserController extends Controller
         return new UserResource($user);
     }
 
+    // GET CURRENT USER
     /**
      * @OA\Get(
      *     path="/api/users/current",
-     *     tags={"Users"},
      *     summary="Get current user",
-     *     description="Return authenticated user's data",
-     *     @OA\Response(
-     *         response=200,
-     *         description="Success get current user",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="data", type="object",
-     *                 @OA\Property(property="id", type="integer", example=1),
-     *                 @OA\Property(property="username", type="string", example="Nugrah"),
-     *                 @OA\Property(property="name", type="string", example="Fabianugerah Bainashhiddiq")
-     *             )
-     *         )
-     *     )
+     *     tags={"Users"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Response(response=200, description="Success get current user")
      * )
      */
     public function get(Request $request): UserResource
@@ -160,29 +119,20 @@ class UserController extends Controller
         return new UserResource($user);
     }
 
+    // UPDATE CURRENT USER
     /**
      * @OA\Patch(
      *     path="/api/users/current",
-     *     tags={"Users"},
      *     summary="Update current user",
-     *     description="Update authenticated user's name and/or password",
+     *     tags={"Users"},
+     *     security={{"bearerAuth":{}}},
      *     @OA\RequestBody(
-     *         required=false,
      *         @OA\JsonContent(
-     *             @OA\Property(property="username", type="string", example="Fabian"),
+     *             @OA\Property(property="name", type="string"),
+     *             @OA\Property(property="password", type="string")
      *         )
      *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="Success update user",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="data", type="object",
-     *                 @OA\Property(property="id", type="integer", example=1),
-     *                 @OA\Property(property="username", type="string", example="Fabian"),
-     *                 @OA\Property(property="name", type="string", example="Fabianugerah Bainashhiddiq")
-     *             )
-     *         )
-     *     )
+     *     @OA\Response(response=200, description="Success update user")
      * )
      */
     public function update(UserUpdateRequest $request): UserResource
@@ -204,27 +154,17 @@ class UserController extends Controller
         return new UserResource($user);
     }
 
+    // LOGOUT USER
     /**
      * @OA\Delete(
      *     path="/api/users/logout",
-     *     tags={"Users"},
      *     summary="Logout current user",
-     *     description="Invalidate the current user's token and logout",
-     *
-     *     @OA\Response(
-     *         response=200,
-     *         description="Success logout user",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="data", type="boolean", example=true)
-     *         )
-     *     ),
-     *
-     *     @OA\Response(
-     *         response=401,
-     *         description="Unauthorized"
-     *     )
+     *     tags={"Users"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Response(response=200, description="Success logout user")
      * )
      */
+
     public function logout(Request $request): JsonResponse
     {
         $user = Auth::user();

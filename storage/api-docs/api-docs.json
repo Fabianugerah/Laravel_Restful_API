@@ -11,40 +11,231 @@
     },
     "servers": [
         {
-            "url": "http://localhost:8000/api/v1",
+            "url": "http://localhost:8000",
             "description": "Demo API Server"
         }
     ],
     "paths": {
-        "/kategori-berita": {
+        "/api/contacts/{idContact}/addresses": {
             "get": {
                 "tags": [
-                    "Example"
+                    "Addresses"
                 ],
-                "summary": "Kategori Berita",
-                "description": "Mengambil Data Kategori Berita",
-                "operationId": "2adf42b58e35a465572d225ae9e26762",
+                "summary": "Get list of addresses",
+                "operationId": "8e23a407dd7377a40912798006937864",
+                "parameters": [
+                    {
+                        "name": "idContact",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {},
-                                "example": {
-                                    "success": true,
-                                    "message": "Berhasil mengambil Kategori Berita",
-                                    "data": [
-                                        {
-                                            "id": "1",
-                                            "username": "Nugrah",
-                                            "password": "rahasia"
-                                        }
-                                    ]
-                                }
+                        "description": "List addresses"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Addresses"
+                ],
+                "summary": "Create new address",
+                "operationId": "e2d24e7ff8b1037f974e619d6eceb5ee",
+                "parameters": [
+                    {
+                        "name": "idContact",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "street",
+                                    "city",
+                                    "province",
+                                    "country",
+                                    "postal_code"
+                                ],
+                                "properties": {
+                                    "street": {
+                                        "type": "string"
+                                    },
+                                    "city": {
+                                        "type": "string"
+                                    },
+                                    "province": {
+                                        "type": "string"
+                                    },
+                                    "country": {
+                                        "type": "string"
+                                    },
+                                    "postal_code": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
                             }
                         }
                     }
-                }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Success create address"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/contacts/{idContact}/addresses/{idAddress}": {
+            "get": {
+                "tags": [
+                    "Addresses"
+                ],
+                "summary": "Get single address",
+                "operationId": "8b3727082cc78c6c8dfaa07f24ab90a6",
+                "parameters": [
+                    {
+                        "name": "idContact",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "idAddress",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Address detail"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Addresses"
+                ],
+                "summary": "Update address",
+                "operationId": "ce2bf513b2d429062000308419be698b",
+                "parameters": [
+                    {
+                        "name": "idContact",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "idAddress",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "street": {
+                                        "type": "string"
+                                    },
+                                    "city": {
+                                        "type": "string"
+                                    },
+                                    "province": {
+                                        "type": "string"
+                                    },
+                                    "country": {
+                                        "type": "string"
+                                    },
+                                    "postal_code": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success update address"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Addresses"
+                ],
+                "summary": "Delete address",
+                "operationId": "b3e0563c2c623254eb624732db9a3335",
+                "parameters": [
+                    {
+                        "name": "idContact",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "idAddress",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success delete address"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/contacts": {
@@ -52,7 +243,7 @@
                 "tags": [
                     "Contacts"
                 ],
-                "summary": "Search contacts",
+                "summary": "Search contact",
                 "operationId": "feedd0571fadea9e6ae1f5f54feeb7df",
                 "parameters": [
                     {
@@ -93,53 +284,14 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Success search contacts",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "properties": {
-                                                    "id": {
-                                                        "type": "integer",
-                                                        "example": 1
-                                                    },
-                                                    "first_name": {
-                                                        "type": "string",
-                                                        "example": "Fabianugerah"
-                                                    },
-                                                    "last_name": {
-                                                        "type": "string",
-                                                        "example": "Bainasshiddiq"
-                                                    },
-                                                    "email": {
-                                                        "type": "string",
-                                                        "example": "fabianugerah@gmail.com"
-                                                    },
-                                                    "phone": {
-                                                        "type": "string",
-                                                        "example": "088217418481"
-                                                    }
-                                                },
-                                                "type": "object"
-                                            }
-                                        },
-                                        "meta": {
-                                            "type": "object"
-                                        },
-                                        "errors": {
-                                            "type": "object",
-                                            "nullable": true
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
+                        "description": "Success search contacts"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             },
             "post": {
                 "tags": [
@@ -148,27 +300,27 @@
                 "summary": "Create new contact",
                 "operationId": "dfb57fe5f3596b266cb97e8a8aeeccd9",
                 "requestBody": {
-                    "description": "Create new contact",
-                    "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
+                                "required": [
+                                    "first_name",
+                                    "last_name",
+                                    "email",
+                                    "phone"
+                                ],
                                 "properties": {
                                     "first_name": {
-                                        "type": "string",
-                                        "example": "Fabianugerah"
+                                        "type": "string"
                                     },
                                     "last_name": {
-                                        "type": "string",
-                                        "example": "Bainasshiddiq"
+                                        "type": "string"
                                     },
                                     "email": {
-                                        "type": "string",
-                                        "example": "fabianugerah@gmail.com"
+                                        "type": "string"
                                     },
                                     "phone": {
-                                        "type": "string",
-                                        "example": "088217418481"
+                                        "type": "string"
                                     }
                                 },
                                 "type": "object"
@@ -178,43 +330,14 @@
                 },
                 "responses": {
                     "201": {
-                        "description": "Success create contact",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "data": {
-                                            "properties": {
-                                                "id": {
-                                                    "type": "integer",
-                                                    "example": 1
-                                                },
-                                                "first_name": {
-                                                    "type": "string",
-                                                    "example": "Fabianugerah"
-                                                },
-                                                "last_name": {
-                                                    "type": "string",
-                                                    "example": "Bainasshiddiq"
-                                                },
-                                                "email": {
-                                                    "type": "string",
-                                                    "example": "fabianugerah@gmail.com"
-                                                },
-                                                "phone": {
-                                                    "type": "string",
-                                                    "example": "088217418481"
-                                                }
-                                            },
-                                            "type": "object"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
+                        "description": "Success create contact"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/contacts/{id}": {
@@ -222,7 +345,7 @@
                 "tags": [
                     "Contacts"
                 ],
-                "summary": "Get contact detail",
+                "summary": "Get contact by ID",
                 "operationId": "c08cde90dcbdeff05fc379f29cc3b193",
                 "parameters": [
                     {
@@ -236,37 +359,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Success get contact",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "data": {
-                                            "properties": {
-                                                "id": {
-                                                    "type": "integer",
-                                                    "example": 1
-                                                },
-                                                "first_name": {
-                                                    "type": "string"
-                                                },
-                                                "last_name": {
-                                                    "type": "string"
-                                                },
-                                                "email": {
-                                                    "type": "string"
-                                                },
-                                                "phone": {
-                                                    "type": "string"
-                                                }
-                                            },
-                                            "type": "object"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
+                        "description": "Success get contact"
                     }
                 },
                 "security": [
@@ -292,8 +385,6 @@
                     }
                 ],
                 "requestBody": {
-                    "description": "Update contact",
-                    "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
@@ -318,36 +409,7 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Success update contact",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "data": {
-                                            "properties": {
-                                                "id": {
-                                                    "type": "integer"
-                                                },
-                                                "first_name": {
-                                                    "type": "string"
-                                                },
-                                                "last_name": {
-                                                    "type": "string"
-                                                },
-                                                "email": {
-                                                    "type": "string"
-                                                },
-                                                "phone": {
-                                                    "type": "string"
-                                                }
-                                            },
-                                            "type": "object"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
+                        "description": "Success update contact"
                     }
                 },
                 "security": [
@@ -374,20 +436,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Success delete contact",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "data": {
-                                            "type": "boolean",
-                                            "example": true
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
+                        "description": "Success delete contact"
                     }
                 },
                 "security": [
@@ -403,7 +452,6 @@
                     "Users"
                 ],
                 "summary": "Register new user",
-                "description": "Register a new user with username, password, and name",
                 "operationId": "3b201ddfd948f9d4114befe853f5872a",
                 "requestBody": {
                     "required": true,
@@ -412,21 +460,18 @@
                             "schema": {
                                 "required": [
                                     "username",
-                                    "password"
+                                    "password",
+                                    "name"
                                 ],
                                 "properties": {
                                     "username": {
-                                        "type": "string",
-                                        "example": "Nugrah"
+                                        "type": "string"
                                     },
                                     "password": {
-                                        "type": "string",
-                                        "format": "password",
-                                        "example": "rahasia"
+                                        "type": "string"
                                     },
                                     "name": {
-                                        "type": "string",
-                                        "example": "Fabianugerah Bainashhiddiq"
+                                        "type": "string"
                                     }
                                 },
                                 "type": "object"
@@ -436,64 +481,7 @@
                 },
                 "responses": {
                     "201": {
-                        "description": "Success register user",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "data": {
-                                            "properties": {
-                                                "id": {
-                                                    "type": "integer",
-                                                    "example": 1
-                                                },
-                                                "username": {
-                                                    "type": "string",
-                                                    "example": "Nugrah"
-                                                },
-                                                "name": {
-                                                    "type": "string",
-                                                    "example": "Fabianugerah Bainashhiddiq"
-                                                }
-                                            },
-                                            "type": "object"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Validation error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "errors": {
-                                            "properties": {
-                                                "username": {
-                                                    "type": "array",
-                                                    "items": {
-                                                        "type": "string",
-                                                        "example": "username must not be blank"
-                                                    }
-                                                },
-                                                "name": {
-                                                    "type": "array",
-                                                    "items": {
-                                                        "type": "string",
-                                                        "example": "name must not be blank"
-                                                    }
-                                                }
-                                            },
-                                            "type": "object"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
+                        "description": "Success register user"
                     }
                 }
             }
@@ -504,7 +492,6 @@
                     "Users"
                 ],
                 "summary": "Login user",
-                "description": "Authenticate user and return token",
                 "operationId": "c9b20e2431404b7383ce7e626b4b6f05",
                 "requestBody": {
                     "required": true,
@@ -517,13 +504,10 @@
                                 ],
                                 "properties": {
                                     "username": {
-                                        "type": "string",
-                                        "example": "Nugrah"
+                                        "type": "string"
                                     },
                                     "password": {
-                                        "type": "string",
-                                        "format": "password",
-                                        "example": "rahasia"
+                                        "type": "string"
                                     }
                                 },
                                 "type": "object"
@@ -533,37 +517,7 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Success login",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "data": {
-                                            "properties": {
-                                                "id": {
-                                                    "type": "integer",
-                                                    "example": 1
-                                                },
-                                                "username": {
-                                                    "type": "string",
-                                                    "example": "Nugrah"
-                                                },
-                                                "name": {
-                                                    "type": "string",
-                                                    "example": "Fabianugerah Bainashhiddiq"
-                                                },
-                                                "token": {
-                                                    "type": "string",
-                                                    "example": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9..."
-                                                }
-                                            },
-                                            "type": "object"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
+                        "description": "Success login"
                     }
                 }
             }
@@ -574,56 +528,34 @@
                     "Users"
                 ],
                 "summary": "Get current user",
-                "description": "Return authenticated user's data",
                 "operationId": "284ea63f67607acf4715f44787499112",
                 "responses": {
                     "200": {
-                        "description": "Success get current user",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "data": {
-                                            "properties": {
-                                                "id": {
-                                                    "type": "integer",
-                                                    "example": 1
-                                                },
-                                                "username": {
-                                                    "type": "string",
-                                                    "example": "Nugrah"
-                                                },
-                                                "name": {
-                                                    "type": "string",
-                                                    "example": "Fabianugerah Bainashhiddiq"
-                                                }
-                                            },
-                                            "type": "object"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
+                        "description": "Success get current user"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             },
             "patch": {
                 "tags": [
                     "Users"
                 ],
                 "summary": "Update current user",
-                "description": "Update authenticated user's name and/or password",
                 "operationId": "6b38acce2e0e0be120a452b76d9377b9",
                 "requestBody": {
-                    "required": false,
                     "content": {
                         "application/json": {
                             "schema": {
                                 "properties": {
-                                    "username": {
-                                        "type": "string",
-                                        "example": "Fabian"
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
                                     }
                                 },
                                 "type": "object"
@@ -633,35 +565,14 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Success update user",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "data": {
-                                            "properties": {
-                                                "id": {
-                                                    "type": "integer",
-                                                    "example": 1
-                                                },
-                                                "username": {
-                                                    "type": "string",
-                                                    "example": "Fabian"
-                                                },
-                                                "name": {
-                                                    "type": "string",
-                                                    "example": "Fabianugerah Bainashhiddiq"
-                                                }
-                                            },
-                                            "type": "object"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
+                        "description": "Success update user"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/users/logout": {
@@ -670,36 +581,35 @@
                     "Users"
                 ],
                 "summary": "Logout current user",
-                "description": "Invalidate the current user's token and logout",
                 "operationId": "197ceb8d01abe337fbae5165ecca9cd1",
                 "responses": {
                     "200": {
-                        "description": "Success logout user",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "data": {
-                                            "type": "boolean",
-                                            "example": true
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized"
+                        "description": "Success logout user"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "name": "Authorization",
+                "in": "header",
+                "bearerFormat": "UUID",
+                "scheme": "bearer"
             }
         }
     },
     "tags": [
         {
-            "name": "Example",
-            "description": "Example"
+            "name": "Addresses",
+            "description": "Addresses"
         },
         {
             "name": "Contacts",
