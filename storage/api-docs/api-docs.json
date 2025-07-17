@@ -73,19 +73,24 @@
                                 ],
                                 "properties": {
                                     "street": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "Dharma"
                                     },
                                     "city": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "Pandaan"
                                     },
                                     "province": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "Jawa Timur"
                                     },
                                     "country": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "Indonesia"
                                     },
                                     "postal_code": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "67156"
                                     }
                                 },
                                 "type": "object"
@@ -171,19 +176,24 @@
                             "schema": {
                                 "properties": {
                                     "street": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "Dharma Bakti"
                                     },
                                     "city": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "Pasuruan"
                                     },
                                     "province": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "Jatim"
                                     },
                                     "country": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "Indonesia"
                                     },
                                     "postal_code": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "67156"
                                     }
                                 },
                                 "type": "object"
@@ -311,16 +321,20 @@
                                 ],
                                 "properties": {
                                     "first_name": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "Fabianugerah"
                                     },
                                     "last_name": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "Bainasshiddiq"
                                     },
                                     "email": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "fabianugerah@gmail.com"
                                     },
                                     "phone": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "08123456789"
                                     }
                                 },
                                 "type": "object"
@@ -390,16 +404,16 @@
                             "schema": {
                                 "properties": {
                                     "first_name": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "Fabian"
                                     },
                                     "last_name": {
-                                        "type": "string"
-                                    },
-                                    "email": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "Nugrah"
                                     },
                                     "phone": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "082672637672"
                                     }
                                 },
                                 "type": "object"
@@ -460,18 +474,21 @@
                             "schema": {
                                 "required": [
                                     "username",
-                                    "password",
-                                    "name"
+                                    "name",
+                                    "password"
                                 ],
                                 "properties": {
                                     "username": {
-                                        "type": "string"
-                                    },
-                                    "password": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "Nugrah"
                                     },
                                     "name": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "Fabianugerah Bainasshiddiq"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "rahasia123"
                                     }
                                 },
                                 "type": "object"
@@ -504,10 +521,12 @@
                                 ],
                                 "properties": {
                                     "username": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "Nugrah"
                                     },
                                     "password": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "rahasia123"
                                     }
                                 },
                                 "type": "object"
@@ -552,10 +571,12 @@
                             "schema": {
                                 "properties": {
                                     "name": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "Fabianugerah"
                                     },
                                     "password": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "rahasia"
                                     }
                                 },
                                 "type": "object"
@@ -601,7 +622,7 @@
                 "type": "http",
                 "name": "Authorization",
                 "in": "header",
-                "bearerFormat": "UUID",
+                "bearerFormat": "JWT",
                 "scheme": "bearer"
             }
         }

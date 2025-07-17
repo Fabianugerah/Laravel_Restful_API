@@ -10,11 +10,10 @@ use App\Models\User;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
-    
+use Tymon\JWTAuth\Facades\JWTAuth;
+use Tymon\JWTAuth\Exceptions\JWTException;
+
 class UserController extends Controller
 {
     // REGISTER USER
@@ -26,39 +25,39 @@ class UserController extends Controller
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             required={"username", "password", "name"},
-     *             @OA\Property(property="username", type="string"),
-     *             @OA\Property(property="password", type="string"),
-     *             @OA\Property(property="name", type="string")
+     *             required={"username", "name", "password"},
+     *             @OA\Property(property="username", type="string", example="Nugrah"),
+     *             @OA\Property(property="name", type="string", example="Fabianugerah Bainasshiddiq"),
+     *             @OA\Property(property="password", type="string", example="rahasia123")
+     *
      *         )
      *     ),
-     *     @OA\Response(
-     *         response=201,
-     *         description="Success register user"
-     *     )
+     *     @OA\Response(response=201, description="Success register user")
      * )
      */
     public function register(UserRegisterRequest $request): JsonResponse
     {
         $data = $request->validated();
 
-        if (User::where('username', $data['username'])->count() == 1) {
+        if (User::where('username', $data['username'])->exists()) {
             throw new HttpResponseException(response([
                 "errors" => [
-                    "username" => [
-                        "username already registered"
-                    ]
+                    "username" => ["username already registered"]
                 ]
             ], 400));
         }
 
-        $user = new User($data);
-        $user->password = Hash::make($data['password']);
-        if ($user instanceof \App\Models\User) {
-            $user->save();
-        }
+        $user = User::create([
+            'username' => $data['username'],
+            'name'     => $data['name'],
+            'password' => Hash::make($data['password'])
 
-        return (new UserResource($user))->response()->setStatusCode(201);
+        ]);
+
+        return response()->json([
+            'message' => 'User registered successfully',
+            'user' => new UserResource($user),
+        ], 201);
     }
 
     // LOGIN USER
@@ -71,36 +70,36 @@ class UserController extends Controller
      *         required=true,
      *         @OA\JsonContent(
      *             required={"username", "password"},
-     *             @OA\Property(property="username", type="string"),
-     *             @OA\Property(property="password", type="string")
+     *             @OA\Property(property="username", type="string", example="Nugrah"),
+     *             @OA\Property(property="password", type="string", example="rahasia123")
      *         )
      *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="Success login"
-     *     )
+     *     @OA\Response(response=200, description="Success login")
      * )
      */
-    public function login(UserLoginRequest $request): UserResource
+    public function login(UserLoginRequest $request): JsonResponse
     {
-        $data = $request->validated();
+        $credentials = $request->validated();
 
-        $user = User::where('username', $data['username'])->first();
-        if (!$user || !Hash::check($data['password'], $user->password)) {
-            throw new HttpResponseException(response([
-                "errors" => [
-                    "message" => [
-                        "username or password wrong"
-                    ]
-                ]
-            ], 401));
+        try {
+            if (!$token = JWTAuth::attempt($credentials)) {
+                return response()->json(['error' => 'username or password wrong'], 401);
+            }
+        } catch (JWTException $e) {
+            return response()->json(['error' => 'could not create token'], 500);
         }
 
-        $user->token = Str::uuid()->toString();
-        if ($user instanceof \App\Models\User) {
-            $user->save();
+        $user = auth()->user();
+        $loggedUser = User::find($user->id);
+        if ($loggedUser) {
+            $loggedUser->token = $token;
+            $loggedUser->save();
         }
-        return new UserResource($user);
+
+        return response()->json([
+            'user' => new UserResource($user),
+            'token' => $token
+        ]);
     }
 
     // GET CURRENT USER
@@ -113,10 +112,10 @@ class UserController extends Controller
      *     @OA\Response(response=200, description="Success get current user")
      * )
      */
+
     public function get(Request $request): UserResource
     {
-        $user = Auth::user();
-        return new UserResource($user);
+        return new UserResource(auth()->user());
     }
 
     // UPDATE CURRENT USER
@@ -128,8 +127,8 @@ class UserController extends Controller
      *     security={{"bearerAuth":{}}},
      *     @OA\RequestBody(
      *         @OA\JsonContent(
-     *             @OA\Property(property="name", type="string"),
-     *             @OA\Property(property="password", type="string")
+     *             @OA\Property(property="name", type="string", example="Fabianugerah"),
+     *             @OA\Property(property="password", type="string", example="rahasia")
      *         )
      *     ),
      *     @OA\Response(response=200, description="Success update user")
@@ -138,23 +137,23 @@ class UserController extends Controller
     public function update(UserUpdateRequest $request): UserResource
     {
         $data = $request->validated();
-        $user = Auth::user();
+        $user = auth()->user();
 
-        if (isset($data['name'])) {
-            $user->name = $data['name'];
-        }
+        $updateUser = User::find($user->id);
+        if ($updateUser) {
+            if (isset($data['name'])) {
+                $user->name = $data['name'];
+            }
 
-        if (isset($data['password'])) {
-            $user->password = Hash::make($data['password']);
-        }
-
-        if ($user instanceof \App\Models\User) {
-            $user->save();
+            if (isset($data['password'])) {
+                $user->password = Hash::make($data['password']);
+            }
+            $updateUser->save();
         }
         return new UserResource($user);
     }
 
-    // LOGOUT USER
+    // LOGOUT CURRENT USER
     /**
      * @OA\Delete(
      *     path="/api/users/logout",
@@ -164,17 +163,9 @@ class UserController extends Controller
      *     @OA\Response(response=200, description="Success logout user")
      * )
      */
-
     public function logout(Request $request): JsonResponse
     {
-        $user = Auth::user();
-        if ($user instanceof \App\Models\User) {
-            $user->token = null;
-            $user->save();
-        }
-
-        return response()->json([
-            "data" => true
-        ])->setStatusCode(200);
+        auth()->logout();
+        return response()->json(["message" => "Successfully logged out"], 200);
     }
 }

@@ -26,10 +26,10 @@ class ContactController extends Controller
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             required={"first_name", "last_name", "email", "phone"},
-     *             @OA\Property(property="first_name", type="string"),
-     *             @OA\Property(property="last_name", type="string"),
-     *             @OA\Property(property="email", type="string"),
-     *             @OA\Property(property="phone", type="string")
+     *             @OA\Property(property="first_name", type="string", example="Fabianugerah"),
+     *             @OA\Property(property="last_name", type="string", example="Bainasshiddiq"),
+     *             @OA\Property(property="email", type="string", example="fabianugerah@gmail.com"),
+     *             @OA\Property(property="phone", type="string", example="08123456789")
      *         )
      *     ),
      *     @OA\Response(response=201, description="Success create contact")
@@ -85,10 +85,9 @@ class ContactController extends Controller
      *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
      *     @OA\RequestBody(
      *         @OA\JsonContent(
-     *             @OA\Property(property="first_name", type="string"),
-     *             @OA\Property(property="last_name", type="string"),
-     *             @OA\Property(property="email", type="string"),
-     *             @OA\Property(property="phone", type="string")
+     *             @OA\Property(property="first_name", type="string", example="Fabian"),
+     *             @OA\Property(property="last_name", type="string", example="Nugrah"),
+     *             @OA\Property(property="phone", type="string", example="082672637672")
      *         )
      *     ),
      *     @OA\Response(response=200, description="Success update contact")

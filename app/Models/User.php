@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\Authenticatable;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Model implements Authenticatable
+class User extends Authenticatable implements JWTSubject
 {
     protected $table = "users";
     protected $primaryKey = "id";
@@ -19,6 +21,10 @@ class User extends Model implements Authenticatable
         'username',
         'password',
         'name'
+    ];
+
+    protected $hidden = [
+        'password'
     ];
 
     public function contacts(): HasMany
@@ -51,8 +57,19 @@ class User extends Model implements Authenticatable
         $this->token = $value;
     }
 
-    public function getRememberTokenName()
+     /**
+     * JWT: Identifier untuk token
+     */
+    public function getJWTIdentifier()
     {
-        return 'token';
+        return $this->getKey();
+    }
+
+    /**
+     * JWT: Custom claims
+     */
+    public function getJWTCustomClaims()
+    {
+        return [];
     }
 }

@@ -61,11 +61,11 @@ class AddressController extends Controller
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             required={"street", "city", "province", "country", "postal_code"},
-     *             @OA\Property(property="street", type="string"),
-     *             @OA\Property(property="city", type="string"),
-     *             @OA\Property(property="province", type="string"),
-     *             @OA\Property(property="country", type="string"),
-     *             @OA\Property(property="postal_code", type="string")
+     *             @OA\Property(property="street", type="string", example="Dharma"),
+     *             @OA\Property(property="city", type="string", example="Pandaan"),
+     *             @OA\Property(property="province", type="string", example="Jawa Timur"),
+     *             @OA\Property(property="country", type="string", example="Indonesia"),
+     *             @OA\Property(property="postal_code", type="string", example="67156")
      *         )
      *     ),
      *     @OA\Response(response=201, description="Success create address")
@@ -116,11 +116,11 @@ class AddressController extends Controller
      *     @OA\Parameter(name="idAddress", in="path", required=true, @OA\Schema(type="integer")),
      *     @OA\RequestBody(
      *         @OA\JsonContent(
-     *             @OA\Property(property="street", type="string"),
-     *             @OA\Property(property="city", type="string"),
-     *             @OA\Property(property="province", type="string"),
-     *             @OA\Property(property="country", type="string"),
-     *             @OA\Property(property="postal_code", type="string")
+     *             @OA\Property(property="street", type="string", example="Dharma Bakti"),
+     *             @OA\Property(property="city", type="string", example="Pasuruan"),
+     *             @OA\Property(property="province", type="string", example="Jatim"),
+     *             @OA\Property(property="country", type="string", example="Indonesia"),
+     *             @OA\Property(property="postal_code", type="string", example="67156")
      *         )
      *     ),
      *     @OA\Response(response=200, description="Success update address")
